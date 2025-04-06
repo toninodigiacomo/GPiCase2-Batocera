@@ -12,7 +12,7 @@ echo " Début du script d'installation du Safe Shutdown RetroFlag"
 echo "=========================================================="
 
 # Définir les chemins
-SourcePath="/userdata/system/GPiCase2-Batocera-Batocera40_SafeShutdown_GPi2_v1.2"
+SourcePath="/userdata/system/GPiCase2-Batocera-Batocera40_SafeShutdown_GPi2_v1.3"
 InstallDir="/userdata/RetroFlag"
 ScriptName="SafeShutdown_lcd_dock.py"
 OriginalScript="Batocera40_SafeShutdown_GPi2.py"
