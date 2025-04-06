@@ -25,8 +25,8 @@ sleep 2s
 
 # Remonter les partitions en lecture/écriture
 echo "[INFO] Remontée de /boot et / en lecture/écriture..."
-mount -o remount,rw /boot || { echo "[ERREUR] Impossible de remonter /boot en RW"; exit 1; }
-mount -o remount,rw / || { echo "[ERREUR] Impossible de remonter / en RW"; exit 1; }
+mount -o remount, rw /boot || { echo "[ERREUR] Impossible de remonter /boot en RW"; exit 1; }
+mount -o remount, rw / || { echo "[ERREUR] Impossible de remonter / en RW"; exit 1; }
 
 # Création du répertoire d'installation
 echo "[INFO] Vérification du répertoire $InstallDir..."
