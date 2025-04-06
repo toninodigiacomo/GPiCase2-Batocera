@@ -10,7 +10,8 @@ mkdir /userdata/RetroFlag
 sleep 2s
 script=/userdata/RetroFlag/SafeShutdown_lcd_dock.py
 
-wget -O  $script "$SourcePath/Batocera40_SafeShutdown_GPi2.py"
+##wget -O  $script "$SourcePath/Batocera40_SafeShutdown_GPi2.py"
+mv "$SourcePath/Batocera40_SafeShutdown_GPi2.py" $script
 # --------------------------------------------------------------------------
 
 sleep 2s
