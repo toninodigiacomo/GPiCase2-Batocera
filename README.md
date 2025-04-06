@@ -6,15 +6,25 @@ Ne pas utiliser ***system.power.switch=RETROFLAG_GPI***
 
 Ou bien:
 - Télécharger l'archive :
-```wget https://github.com/toninodigiacomo/GPiCase2-Batocera/archive/refs/tags/Batocera40_SafeShutdown_GPi2_v1.0.zip```
+```
+wget https://github.com/toninodigiacomo/GPiCase2-Batocera/archive/refs/tags/Batocera40_SafeShutdown_GPi2_v1.0.zip
+```
 - Décompresser l'archive :
-```__unzip Batocera40_SafeShutdown_GPi2_v1.0.zip; rm Batocera40_SafeShutdown_GPi2_v1.0.zip__```
+```
+__unzip Batocera40_SafeShutdown_GPi2_v1.0.zip; rm Batocera40_SafeShutdown_GPi2_v1.0.zip__
+```
 - Changer de répertoire :
-```__cd Batocera40_SafeShutdown_GPi2_v1.0__```
+```
+__cd Batocera40_SafeShutdown_GPi2_v1.0__
+```
 - Rendre le fichier _Batocera40_Install_GPi2.sh_ executable : 
-```__chmod +x Batocera40_Install_GPi2.sh__```
+```
+__chmod +x Batocera40_Install_GPi2.sh__
+```
 - Executer le script : 
-```__sh ./Batocera40_Install_GPi2.sh__```
+```
+__sh ./Batocera40_Install_GPi2.sh__
+```
 
 
 source: https://www.reddit.com/r/batocera/comments/1fdcr3u/batocera_retroflag_gpi_case2_dock_working/
