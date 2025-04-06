@@ -3,7 +3,7 @@
 
 - Télécharger l'archive :
 ```
-wget https://github.com/toninodigiacomo/GPiCase2-Batocera/archive/refs/tags/Batocera40_SafeShutdown_GPi2_v1.0.zip
+wget https://github.com/toninodigiacomo/GPiCase2-Batocera/archive/refs/tags/Batocera40_SafeShutdown_GPi2_v1.1.zip
 ```
 - Décompresser l'archive :
 ```
