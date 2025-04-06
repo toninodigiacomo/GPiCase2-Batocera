@@ -11,19 +11,19 @@ wget https://github.com/toninodigiacomo/GPiCase2-Batocera/archive/refs/tags/Bato
 ```
 - Décompresser l'archive :
 ```
-__unzip Batocera40_SafeShutdown_GPi2_v1.0.zip; rm Batocera40_SafeShutdown_GPi2_v1.0.zip__
+unzip Batocera40_SafeShutdown_GPi2_v1.0.zip; rm Batocera40_SafeShutdown_GPi2_v1.0.zip
 ```
 - Changer de répertoire :
 ```
-__cd Batocera40_SafeShutdown_GPi2_v1.0__
+cd Batocera40_SafeShutdown_GPi2_v1.0
 ```
 - Rendre le fichier _Batocera40_Install_GPi2.sh_ executable : 
 ```
-__chmod +x Batocera40_Install_GPi2.sh__
+chmod +x Batocera40_Install_GPi2.sh
 ```
 - Executer le script : 
 ```
-__sh ./Batocera40_Install_GPi2.sh__
+sh ./Batocera40_Install_GPi2.sh
 ```
 
 
