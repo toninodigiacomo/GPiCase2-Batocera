@@ -147,10 +147,10 @@ dtoverlay=dwc2,dr_mode=host
 [rpi4]
 # Enable DRM VC4 V3D driver on top of the dispmanx display stack
 # Preferred 'Full' Kernel Mode Setting (KMS)
-#dtoverlay=vc4-kms-v3d-pi4,noaudio
+dtoverlay=vc4-kms-v3d-pi4,noaudio
 
 # Optional 'Fake' KMS for displays that won't work with 'Full' KMS
-dtoverlay=vc4-fkms-v3d
+#dtoverlay=vc4-fkms-v3d
 
 # Ensure only one display output can be used on the Pi4 with batocera
 
@@ -178,8 +178,15 @@ enable_dpi_lcd=1
 display_default_lcd=1
 dpi_group=2
 dpi_mode=87
-dpi_output_format=0x00016
-hdmi_timings=640 0 41 40 41 480 0 18 9 18 0 0 0 60 0 24000000 1   #80hz
+#dpi_output_format=0x00016
+dpi_output_format=0x074017
+#hdmi_timings=640 0 41 40 41 480 0 18 9 18 0 0 0 60 0 24000000 1   #80hz
+hdmi_timings=640 0 20 10 10 480 0 10 5 5 0 0 0 60 0 18000000 1
 #hdmi_timings=640 0 20 1 20 480 0 1 1 2 0 0 0 60 0 24000000 1  #59hz
 
 [all]
+arm_64bit=1
+disable_overscan=1
+
+# USB and Audio PWM (speakers)
+dtoverlay=pwm-2chan,pin=18,func=2,pin2=19,func2=2
