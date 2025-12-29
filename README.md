@@ -20,31 +20,34 @@
                 |                         |
           [ YES | DOCKED ]           [ NO | HANDHELD ]
                 |                         |
-+-------------- v ---------+  +--------- v --------------+
-|  Compare Current Config  |  |  Compare Current Config  |
-|    with config_hdmi.txt  |  |    with config_lcd.txt   |
-+--------------------------+  +--------------------------+
-               |                         |
-      +------- v -------+       +------- v -------+
-      |   Is it Equal?  |       |   Is it Equal?  |
-      +-----------------+       +-----------------+
++-------------- v ---------+   +--------- v --------------+
+|  Compare Current Config  |   |  Compare Current Config  |
+|    with config_hdmi.txt  |   |    with config_lcd.txt   |
++--------------------------+   +--------------------------+
+                |                         |
+       +------- v -------+       +------- v -------+
+       |   Is it Equal?  |       |   Is it Equal?  |
+       +-----------------+       +-----------------+
            |         |             |         |
         [ YES ]    [ NO ]       [ YES ]    [ NO ]
-          |          |             |         |
-          |    +-------------+     |   +-------------+
-          |    | Copy HDMI   |     |   | Copy LCD    |
-          |    | File to     |     |   | File to     |
-          |    | config.txt  |     |   | config.txt  |
-          |    +-------------+     |   +-------------+
-          |          |             |         |
-          |    +-------------+     |   +-------------+
-          |    |   REBOOT    |     |   |   REBOOT    |
-          |    +-------------+     |   +-------------+
-          |                        |
-  +------ v ---------------------- v ------------------------+
+           |         |             |         |
+           |   +---- v ------+     |   +---- v ------+
+           |   | Copy HDMI   |     |   | Copy LCD    |
+           |   | File to     |     |   | File to     |
+           |   | config.txt  |     |   | config.txt  |
+           |   +-------------+     |   +-------------+
+           |         |             |         |
+           |    +--- v -------+    |    +--- v -------+
+           |    |   REBOOT    |    |    |   REBOOT    |
+           |    +-------------+    |    +-------------+
+           |                       | 
+  +------- v --------------------- v ------------------------+
   |               LAUNCH EMULATION STATION                   |
   |           (Display is now correctly set)                 |
   +----------------------------------------------------------+
 ```
 
-
+#### Quick Key:
+- HDMI Detected: The script checks if the Dock is connected to a powered-on TV.
+- Compare (cmp -s): This is the safety check. It prevents an infinite reboot loop. If the file is already correct, it skips the copy and the reboot.
+- Reboot: Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
