@@ -48,16 +48,16 @@ disable_overscan=1
 # uncomment to apply an appropriate CEA or DMT mode for your display
 # see the web site below for valid options depending on the hdmi_group setting
 # https://www.raspberrypi.org/documentation/configuration/config-txt/video.md
-#hdmi_mode=4
+hdmi_mode=16
 
 # uncomment to force a HDMI mode rather than DVI. This can make audio work in
 # DMT (computer monitor) modes
-#hdmi_drive=2
+hdmi_drive=2
 
 # uncomment will remove all other modes except the ones specified by hdmi_mode and hdmi_group from the internal list
 # meaning they will not appear in any enumerated lists of modes.
 # this option may help if a display seems to be ignoring the hdmi_mode and hdmi_group settings.
-#hdmi_force_mode=1
+hdmi_force_mode=1
 
 # use this option to allow selection of 4k 60Hz refresh rates.
 # note, this will increase power consumption and increase the temperature of the Raspberry Pi.
@@ -116,8 +116,6 @@ boot_delay=3
 # uncomment if you don't want the rainbow at startup
 disable_splash=1
 
-
-
 # enable UART (required for for retroflag)
 # affect rpi performances
 # enable_uart=1
@@ -132,7 +130,7 @@ disable_splash=1
 #dtoverlay=gpio-ir-tx,gpio_pin=18
 
 # Automatically load overlays for detected DSI displays
-#display_auto_detect=1
+display_auto_detect=1
 
 # Enable audio (loads snd_bcm2835)
 dtparam=audio=on
@@ -140,20 +138,10 @@ dtparam=audio=on
 # Enable bluetooth
 dtparam=krnbt=on
 
-# Enable DRM VC4 V3D driver
-#dtoverlay=vc4-kms-v3d-pi4
 dtoverlay=dwc2,dr_mode=host
 
-[rpi4]
-# Enable DRM VC4 V3D driver on top of the dispmanx display stack
-# Preferred 'Full' Kernel Mode Setting (KMS)
-#dtoverlay=vc4-kms-v3d-pi4,noaudio
-
-# Optional 'Fake' KMS for displays that won't work with 'Full' KMS
-#dtoverlay=vc4-fkms-v3d
-
-# Ensure only one display output can be used on the Pi4 with batocera
-
+# Enable DRM VC4 V3D driver
+dtoverlay=vc4-kms-v3d-pi4
 max_framebuffers=1
 
 # Run as fast as firmware/board allows
@@ -165,28 +153,9 @@ arm_boost=1
 #ignore_lcd=1
 #dtoverlay=vc4-kms-dsi-7inch
 
-display_rotate=0
-dtoverlay=dpi24
-overscan_left=0
-overscan_right=0
-overscan_top=0
-overscan_bottom=0
-framebuffer_width=640
-framebuffer_height=480
-#framebuffer_depth=8
-enable_dpi_lcd=1
-display_default_lcd=1
-dpi_group=2
-dpi_mode=87
-#dpi_output_format=0x00016
-dpi_output_format=0x074017
-#hdmi_timings=640 0 41 40 41 480 0 18 9 18 0 0 0 60 0 24000000 1   #80hz
-hdmi_timings=640 0 20 10 10 480 0 10 5 5 0 0 0 60 0 18000000 1
-#hdmi_timings=640 0 20 1 20 480 0 1 1 2 0 0 0 60 0 24000000 1  #59hz
-
 [all]
 arm_64bit=1
 disable_overscan=1
 
-# USB and Audio PWM (speakers)
-dtoverlay=pwm-2chan,pin=18,func=2,pin2=19,func2=2
+# Forced HDMI output
+hdmi_force_hotplug=1
