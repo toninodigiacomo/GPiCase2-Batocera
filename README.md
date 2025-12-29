@@ -1,7 +1,7 @@
 > [!CAUTION]
 > Do not use ***system.power.switch=RETROFLAG_GPI***
 
-### Here is the concept :
+## Here is the concept :
 ```
          +---------------------------------------+
          |           POWER ON (Cold Boot)        |
@@ -47,7 +47,16 @@
   +----------------------------------------------------------+
 ```
 
-#### Quick Key:
+### Quick Keys:
 - HDMI Detected: The script checks if the Dock is connected to a powered-on TV.
 - Compare (cmp -s): This is the safety check. It prevents an infinite reboot loop. If the file is already correct, it skips the copy and the reboot.
 - Reboot: Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
+
+1. Preparing the files
+- First, create two configuration templates in the ```/boot``` folder. Log in via SSH and prepare files:
+  - The LCD file: Create ```/boot/config_lcd.txt``` with appropriate settings for the laptop screen (including DPI settings and the Retroflag patch).
+  - The HDMI file: Create ```/boot/config_hdmi.txt``` with the appropriate settings for the Dock (TV resolution, HDMI audio, etc.).
+
+2. The detection script (Bash)
+- In Batocera, to ensure that the script runs before the EmulationStation interface launches, it must be placed it in ```/userdata/system/scripts/```.
+- Create the file: nano ```/userdata/system/scripts/check_dock.sh```
