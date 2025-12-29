@@ -68,3 +68,21 @@
 - To ensure that this script runs at every boot, we will create an SXX initialization script.
 - Create the file: ```nano /etc/init.d/S01detectdock``` (Note: If /etc/ is read-only, use the /userdata/system/custom.sh folder or create a symbolic link).
 
+Unlike Recalbox, which is starting to integrate these media natively, Batocera is designed for a standard Raspberry Pi 4. For the GPi Case 2, two essential elements are missing:
+- The Overlay file (.dtbo): This is the ___driver___ that tells the processor how to send the image to the GPIO pins rather than to HDMI.
+- Timing configuration: Without precise settings, the screen will remain black or display white lines.
+
+Here's how to finalize your installation so that the config_lcd.txt and config_hdmi.txt files actually work.
+
+**5. Download the “Display Patch”
+- Get the Retroflag-specific dpi24.dtbo file.
+  - Go to the official Retroflag website and download the patch for GPi Case 2.
+  - Inside the archive, look for the **patch_files/overlays/** folder.
+  - Copy the dpi24.dtbo file (and pwm-audio-pi-zero.dtbo if present) to the ```/boot/overlays/```folder on Batocera.
+  - **Warning:** The Raspberry Pi already has a file named dpi24.dtbo by default, but it does not work with this screen. It must be overwritenby the the one from Retroflag.
+ 
+**6. Installing the Shutdown script
+- Connect via SSH and run this command (this is the official script adapted for Batocera):
+```
+wget -O - "https://raw.githubusercontent.com/RetroFlag/retroflag-picase/master/install_gpi2.sh" | bash
+```
