@@ -74,14 +74,14 @@ Unlike Recalbox, which is starting to integrate these media natively, Batocera i
 
 Here's how to finalize your installation so that the config_lcd.txt and config_hdmi.txt files actually work.
 
-**5. Download the “Display Patch”
+**5. Download the "Display Patch"**
 - Get the Retroflag-specific dpi24.dtbo file.
   - Go to the official Retroflag website and download the patch for GPi Case 2.
   - Inside the archive, look for the **patch_files/overlays/** folder.
   - Copy the dpi24.dtbo file (and pwm-audio-pi-zero.dtbo if present) to the ```/boot/overlays/```folder on Batocera.
   - **Warning:** The Raspberry Pi already has a file named dpi24.dtbo by default, but it does not work with this screen. It must be overwritenby the the one from Retroflag.
  
-**6. Installing the Shutdown script
+**6. Installing the Shutdown script**
 - Connect via SSH and run this command (this is the official script adapted for Batocera):
 ```
 wget -O - "https://raw.githubusercontent.com/RetroFlag/retroflag-picase/master/install_gpi2.sh" | bash
