@@ -60,3 +60,11 @@
 2. The detection script (Bash)
 - In Batocera, to ensure that the script runs before the EmulationStation interface launches, it must be placed it in ```/userdata/system/scripts/```.
 - Create the file: nano ```/userdata/system/scripts/check_dock.sh```
+
+3. Make the script executable
+- Give the script execution rights: ```chmod +x /userdata/system/scripts/check_dock.sh```
+
+4. Automation at startup
+- To ensure that this script runs at every boot, we will create an SXX initialization script.
+- Create the file: ```nano /etc/init.d/S01detectdock``` (Note: If /etc/ is read-only, use the /userdata/system/custom.sh folder or create a symbolic link).
+
