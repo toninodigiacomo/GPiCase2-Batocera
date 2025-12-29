@@ -1,26 +1,49 @@
 > [!CAUTION]
-> Ne pas utiliser ***system.power.switch=RETROFLAG_GPI***
+> Do not use ***system.power.switch=RETROFLAG_GPI***
 
-- Télécharger l'archive :
+###Here is the concept :
 ```
-wget https://github.com/toninodigiacomo/GPiCase2-Batocera/archive/refs/tags/Batocera40_SafeShutdown_GPi2_v1.3.zip
-```
-- Décompresser l'archive :
-```
-unzip Batocera40_SafeShutdown_GPi2_v1.3.zip; rm Batocera40_SafeShutdown_GPi2_v1.3.zip
-```
-- Changer de répertoire :
-```
-cd GPiCase2-Batocera-Batocera40_SafeShutdown_GPi2_v1.3
-```
-- Rendre le fichier _Batocera40_Install_GPi2.sh_ executable : 
-```
-chmod +x Batocera40_Install_GPi2.sh
-```
-- Executer le script : 
-```
-sh ./Batocera40_Install_GPi2.sh
-```
-
-
-source: https://www.reddit.com/r/batocera/comments/1fdcr3u/batocera_retroflag_gpi_case2_dock_working/
+       +---------------------------------------+    |
+       +---------------------------------------+
+                           |
+                           v
+       +-------                           |-       +-------------------v-------------------+    |
+       |    (Early Init - S01detectdock)       |
+       +---------------------------------------+
+                           |
+            _______________|_______________
+                           |
+            +------------- v _______________\
+          |     Is HDMI Cable Detected?     |
+          |    (Check /sys/class/drm/...)   |
+           \_______________________________/
+                 /                   \
+           [ YES / DOCKED ]         [ NO / HANDHELD ]
+                /                     \
+  +--------------------------+    +--------------------------+
+  |  Compare Current Config  |    |  Compare Current Config  |
+  |    with config_hdmi.txt  |    |    with config_lcd.txt   |
+  +--------------------------+    +--------------------------+
+                |                               |
+        ________|________               ________|________
+       /                 \             /                 \
+      |   Is it Equal?    |           |   Is it Equal?    |
+       \_________________/             \_________________/
+           |         |                     |         |
+      [ YES ]     [ NO ]              [ YES ]     [ NO ]
+         |           |                     |           |
+         |     +-------------+             |     +-------------+
+         |     | Copy HDMI   |             |     | Copy LCD    |
+         |     | File to     |             |     | File to     |
+         |     | config.txt  |             |     | config.txt  |
+         |     +-------------+             |     +-------------+
+         |           |                     |           |
+         |     +-------------+             |     +-------------+
+         |     |   REBOOT    |             |     |   REBOOT    |
+         |     +-------------+             |     +-------------+
+         |                                 |
+         v                                 v
+  +----------------------------------------------------------+
+  |               LAUNCH EMULATION STATION                   |
+  |           (Display is now correctly set)                 |
+  +-----------------------------------------  +---------------```
