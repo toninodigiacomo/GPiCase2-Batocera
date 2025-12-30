@@ -84,5 +84,6 @@ Here's how to finalize your installation so that the config_lcd.txt and config_h
 **6. Installing the Shutdown script**
 - Connect via SSH and run this command (this is the official script adapted for Batocera):
 ```
-wget -O - "https://raw.githubusercontent.com/RetroFlag/retroflag-picase/master/install_gpi2.sh" | bash
+mkdir /userdata/RetroFlag
+wget -O /userdata/RetroFlag/SafeShutdown.py "https://raw.githubusercontent.com/RetroFlag/GPiCase2-Script/main/batocera_SafeShutdown_gpi2.py"
 ```
