@@ -1,7 +1,9 @@
 > [!CAUTION]
-> Do not use ***system.power.switch=RETROFLAG_GPI***
+> Do not use ***system.power.switch=RETROFLAG_GPI*** in batocera.conf. Use the custom script provided below.
 
-## Here is the concept :
+## Concept & Workflow
+The system detects the HDMI connection status very early in the boot process and swaps the `config.txt` file accordingly to ensure the correct display driver (DPI for LCD or KMS for HDMI) is loaded.
+
 ```
          +---------------------------------------+
          |           POWER ON (Cold Boot)        |
@@ -52,21 +54,25 @@
 - Compare (cmp -s): This is the safety check. It prevents an infinite reboot loop. If the file is already correct, it skips the copy and the reboot.
 - Reboot: Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
 
-**1. Preparing the files**
-- First, create two configuration templates in the ```/boot``` folder. Log in via SSH and prepare files:
-  - The LCD file: Create ```/boot/config_lcd.txt``` with appropriate settings for the laptop screen (including DPI settings and the Retroflag patch).
-  - The HDMI file: Create ```/boot/config_hdmi.txt``` with the appropriate settings for the Dock (TV resolution, HDMI audio, etc.).
+## Installation Steps
+
+### 1. Prepare Configuration Templates
+Create two specific configuration files in the `/boot` partition:
+- `/boot/config_lcd.txt`: Optimized for the handheld screen (DPI timings, PWM audio).
+- `/boot/config_hdmi.txt`: Optimized for the Dock (HDMI resolution, HDMI audio).
+
+**Note:** both file are attached to this git.
 
 **2. The detection script (Bash)**
-- In Batocera, to ensure that the script runs before the EmulationStation interface launches, it must be placed it in ```/userdata/system/scripts/```.
-- Create the file: nano ```/userdata/system/scripts/check_dock.sh```
+- In Batocera, to ensure that the script runs before the EmulationStation interface launches, it must be placed it in ```/boot/```.
+- Create the file: ```nano /boot/boot-custom.sh```
 
 **3. Make the script executable**
-- Give the script execution rights: ```chmod +x /userdata/system/scripts/check_dock.sh```
+- Give the script execution rights: ```chmod +x /boot/boot-custom.sh```
 
 **4. Automation at startup**
-- To ensure that this script runs at every boot, we will create an SXX initialization script.
-- Create the file: ```detectdock.sh``` (Note: If /etc/ is read-only, use the /userdata/system/custom.sh folder or create a symbolic link).
+- To ensure that this script runs at every boot, we will create an initialization script.
+- Create the file: ```detectdock.sh```.
 ```
 mkdir -p /userdata/system/services
 nano /userdata/system/services/detectdock.sh
