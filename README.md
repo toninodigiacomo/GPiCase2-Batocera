@@ -66,7 +66,11 @@
 
 **4. Automation at startup**
 - To ensure that this script runs at every boot, we will create an SXX initialization script.
-- Create the file: ```nano /etc/init.d/S01detectdock``` (Note: If /etc/ is read-only, use the /userdata/system/custom.sh folder or create a symbolic link).
+- Create the file: ```detectdock.sh``` (Note: If /etc/ is read-only, use the /userdata/system/custom.sh folder or create a symbolic link).
+```
+mkdir -p /userdata/system/services
+nano /userdata/system/services/detectdock.sh
+```
 
 Unlike Recalbox, which is starting to integrate these media natively, Batocera is designed for a standard Raspberry Pi 4. For the GPi Case 2, two essential elements are missing:
 - The Overlay file (.dtbo): This is the ___driver___ that tells the processor how to send the image to the GPIO pins rather than to HDMI.
