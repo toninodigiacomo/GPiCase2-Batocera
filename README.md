@@ -70,6 +70,7 @@
 ```
 mkdir -p /userdata/system/services
 nano /userdata/system/services/detectdock.sh
+chmod +x /userdata/system/services/detectdock.sh
 ```
 
 Unlike Recalbox, which is starting to integrate these media natively, Batocera is designed for a standard Raspberry Pi 4. For the GPi Case 2, two essential elements are missing:
