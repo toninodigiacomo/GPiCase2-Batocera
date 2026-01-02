@@ -1,4 +1,4 @@
-# GPi Case 2 - Auto Dock Detection & Safe Shutdown for Batocera
+# GPi Case 2 - Auto Dock Detection & Safe Shutdown for Batocera
 
 > [!INFORMATION]
 > This project provides a reliable way to automatically switch between LCD (handheld) and HDMI (dock) configurations on Batocera for the Retroflag GPi Case 2, using the hardware GPIO 18 pin for detection. It also includes a Safe Shutdown script.
@@ -72,8 +72,8 @@ The system detects the HDMI connection status very early in the boot process and
 ### Installation
 1. Prepare Configuration Files
 Ensure you have two template files in your /boot partition:
-- **config_lcd.txt** (DPI settings enabled)
-- **config_hdmi.txt** (KMS driver enabled, hdmi_force_hotplug=1)
+  - **config_lcd.txt** (DPI settings enabled)
+  - **config_hdmi.txt** (KMS driver enabled, hdmi_force_hotplug=1)
 
 2. Setup the Boot Switch Script
 Create **/boot/boot-custom.sh**
