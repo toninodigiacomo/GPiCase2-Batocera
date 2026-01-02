@@ -1,7 +1,6 @@
 #!/bin/bash
 case "$1" in
     start)
-        /userdata/system/scripts/check_dock.sh &
+        [ -f /boot/boot-custom.sh ] && /boot/boot-custom.sh start
         ;;
 esac
-exit 0
