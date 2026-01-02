@@ -51,17 +51,17 @@ The system detects the HDMI connection status very early in the boot process and
   +----------------------------------------------------------+
 ```
 
-### Quick Keys:
+## Quick Keys:
 - HDMI Detected: The script checks if the Dock is connected to a powered-on TV.
 - Compare (cmp -s): This is the safety check. It prevents an infinite reboot loop. If the file is already correct, it skips the copy and the reboot.
 - Reboot: Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
 
-### Features
+## Features
 - Zero-latency detection: Uses hardware Pin 18 (Dock sensor) instead of slow USB polling.
 - Smart Switch: Only reboots if the configuration file needs to be changed.
 - Safe Shutdown: Protects your SD card by closing emulators properly before powering off.
 
-### File Structure
+## File Structure
 - **/boot/config_lcd.txt** Handheld display configuration.
 - **/boot/config_hdmi.txt** Dock/TV display configuration.
 - **/boot/boot-custom.sh** The logic script that swaps config.txt.
@@ -69,13 +69,13 @@ The system detects the HDMI connection status very early in the boot process and
 - **/userdata/system/shutdown_gpi.py** Python script for the power button.
 - **/userdata/system/custom.sh** Starts the shutdown script.
 
-### Installation
-1. Prepare Configuration Files
+## Installation
+### 1. Prepare Configuration Files
 Ensure you have two template files in your /boot partition:
   - **config_lcd.txt** (DPI settings enabled)
   - **config_hdmi.txt** (KMS driver enabled, hdmi_force_hotplug=1)
 
-2. Setup the Boot Switch Script
+### 2. Setup the Boot Switch Script
 Create **/boot/boot-custom.sh**
 ```
 bin/bash
@@ -104,7 +104,7 @@ fi
 
 ```chmod +x /boot/boot-custom.sh```
 
-Register the Boot Service
+### 3. Register the Boot Service
 
 Create /etc/init.d/S01detectdock:
 Bash
@@ -117,7 +117,7 @@ case "$1" in
 esac
 
 chmod +x /etc/init.d/S01detectdock
-4. Setup Safe Shutdown
+### 4. Setup Safe Shutdown
 
 Create /userdata/system/shutdown_gpi.py:
 Python
