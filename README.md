@@ -106,7 +106,7 @@ else
     fi
 fi
 ```
-
+Make it executable :
 ```chmod +x /boot/boot-custom.sh```
 
 ### 3. Register the Boot Service
@@ -123,7 +123,7 @@ case "$1" in
         ;;
 esac
 ```
-
+Make it executable :
 ```chmod +x /etc/init.d/S01detectdock```
 
 ### 4. Setup Safe Shutdown
@@ -140,7 +140,7 @@ import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Power Pin
-GPIO.setup(27, GPIO.OUT, initial=GPIO.HIGH)      # Power Enable
+GPIO.setup(27, GPIO.OUT, initial=GPIO.HIGH)       # Power Enable
 
 while True:
     if GPIO.input(26) == GPIO.LOW:
@@ -157,6 +157,9 @@ Enable it in **/userdata/system/custom.sh**
 ```
 python3 /userdata/system/shutdown_gpi.py &
 ```
-
+Make it executable :
 ```chmod +x /userdata/system/custom.sh```
-i### s command to make the /etc/ 
+
+
+
+
