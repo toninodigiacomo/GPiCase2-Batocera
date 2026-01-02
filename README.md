@@ -1,3 +1,4 @@
+# GPi Case 2 - Auto Dock Detection & Safe Shutdown for Batocera
 > [!CAUTION]
 > Do not use ***system.power.switch=RETROFLAG_GPI*** in batocera.conf. Use the custom script provided below.
 
@@ -54,47 +55,100 @@ The system detects the HDMI connection status very early in the boot process and
 - Compare (cmp -s): This is the safety check. It prevents an infinite reboot loop. If the file is already correct, it skips the copy and the reboot.
 - Reboot: Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
 
-## Installation Steps
 
-### 1. Prepare Configuration Templates
-Create two specific configuration files in the `/boot` partition:
-- `/boot/config_lcd.txt`: Optimized for the handheld screen (DPI timings, PWM audio).
-- `/boot/config_hdmi.txt`: Optimized for the Dock (HDMI resolution, HDMI audio).
+> [!INFORMATION]
+> This project provides a reliable way to automatically switch between LCD (handheld) and HDMI (dock) configurations on Batocera for the Retroflag GPi Case 2, using the hardware GPIO 18 pin for detection. It also includes a Safe Shutdown script.
+### Features
+- Zero-latency detection: Uses hardware Pin 18 (Dock sensor) instead of slow USB polling.
+- Smart Switch: Only reboots if the configuration file needs to be changed.
+- Safe Shutdown: Protects your SD card by closing emulators properly before powering off.
 
-**Note:** both file are attached to this git.
+### File Structure
+- **/boot/config_lcd.txt** Handheld display configuration.
+- **/boot/config_hdmi.txt** Dock/TV display configuration.
+- **/boot/boot-custom.sh** The logic script that swaps config.txt.
+- **/etc/init.d/S01detectdock** The service that triggers the check at boot.
+- **/userdata/system/shutdown_gpi.py** Python script for the power button.
+- **/userdata/system/custom.sh** Starts the shutdown script.
 
-**2. The detection script (Bash)**
-- In Batocera, to ensure that the script runs before the EmulationStation interface launches, it must be placed it in ```/boot/```.
-- Create the file: ```nano /boot/boot-custom.sh```
+###Installation
+1. Prepare Configuration Files
+- Ensure you have two template files in your /boot partition:
+  - **config_lcd.txt** (DPI settings enabled)
+  - **config_hdmi.txt** (KMS driver enabled, hdmi_force_hotplug=1)
 
-**3. Make the script executable**
-- Give the script execution rights: ```chmod +x /boot/boot-custom.sh```
-
-**4. Automation at startup**
-- To ensure that this script runs at every boot, we will create an initialization script.
-- Create the file: ```detectdock.sh```.
+2. Setup the Boot Switch Script
+- Create **/boot/boot-custom.sh**
 ```
-mkdir -p /userdata/system/services
-nano /userdata/system/services/detectdock.sh
-chmod +x /userdata/system/services/detectdock.sh
-```
+bin/bash
+BOOT_DIR="/boot"
+CONFIG_FILE="$BOOT_DIR/config.txt"
+CONFIG_LCD="$BOOT_DIR/config_lcd.txt"
+CONFIG_HDMI="$BOOT_DIR/config_hdmi.txt"
 
-Unlike Recalbox, which is starting to integrate these media natively, Batocera is designed for a standard Raspberry Pi 4. For the GPi Case 2, two essential elements are missing:
-- The Overlay file (.dtbo): This is the ___driver___ that tells the processor how to send the image to the GPIO pins rather than to HDMI.
-- Timing configuration: Without precise settings, the screen will remain black or display white lines.
+mount -o remount,rw $BOOT_DIR
 
-Here's how to finalize your installation so that the config_lcd.txt and config_hdmi.txt files actually work.
+# Check Dock status via GPIO 18
+PIN_STATE=$(python3 -c "import RPi.GPIO as GPIO; GPIO.setmode(GPIO.BCM); GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN); print(GPIO.input(18))" 2>/dev/null)
 
-**5. Download the "Display Patch"**
-- Get the Retroflag-specific dpi24.dtbo file.
-  - Go to the official Retroflag website and download the patch for GPi Case 2.
-  - Inside the archive, look for the **patch_files/overlays/** folder.
-  - Copy the dpi24.dtbo file (and pwm-audio-pi-zero.dtbo if present) to the ```/boot/overlays/```folder on Batocera.
-  - **Warning:** The Raspberry Pi already has a file named dpi24.dtbo by default, but it does not work with this screen. It must be overwritenby the the one from Retroflag.
- 
-**6. Installing the Shutdown script**
-- Connect via SSH and run this command (this is the official script adapted for Batocera):
-```
-mkdir /userdata/RetroFlag
-wget -O /userdata/RetroFlag/SafeShutdown.py "https://raw.githubusercontent.com/RetroFlag/GPiCase2-Script/main/batocera_SafeShutdown_gpi2.py"
-```
+if [ "$PIN_STATE" == "1" ]; then
+    # DOCK MODE
+    if ! cmp -s "$CONFIG_FILE" "$CONFIG_HDMI"; then
+        cp -f "$CONFIG_HDMI" "$CONFIG_FILE" && sync && reboot -f
+    fi
+else
+    # HANDHELD MODE
+    if ! cmp -s "$CONFIG_FILE" "$CONFIG_LCD"; then
+        cp -f "$CONFIG_LCD" "$CONFIG_FILE" && sync && reboot -f
+    fi
+fi
+
+ch```
+
+```chmod +x /boot/boot-custom.sh```
+ Register the Boot Service
+
+Create /etc/init.d/S01detectdock:
+Bash
+
+#!/bin/bash
+case "$1" in
+    start)
+        [ -f /boot/boot-custom.sh ] && /boot/boot-custom.sh start
+        ;;
+esac
+
+chmod +x /etc/init.d/S01detectdock
+4. Setup Safe Shutdown
+
+Create /userdata/system/shutdown_gpi.py:
+Python
+
+import RPi.GPIO as GPIO
+import os
+import time
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Power Pin
+GPIO.setup(27, GPIO.OUT, initial=GPIO.HIGH)      # Power Enable
+
+while True:
+    if GPIO.input(26) == GPIO.LOW:
+        os.system("batocera-es-swissknife --emukill")
+        time.sleep(1)
+        os.system("poweroff")
+    time.sleep(0.5)
+
+Enable it in /userdata/system/custom.sh:
+Bash
+
+python3 /userdata/system/shutdown_gpi.py &
+
+chmod +x /userdata/system/custom.sh
+5. Final Step: Save Changes
+
+Run this command to make the /etc/ changes permanent:
+Bash
+
+batocera-save-overlay
