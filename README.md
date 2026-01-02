@@ -71,9 +71,11 @@ The system detects the HDMI connection status very early in the boot process and
 
 ## Installation
 ### 1. Prepare Configuration Files
-Ensure you have two template files in your /boot partition:
+Ensure you have two template files in your **/boot/** folder:
   - **config_lcd.txt** (DPI settings enabled)
-  - **config_hdmi.txt** (KMS driver enabled, hdmi_force_hotplug=1)
+  - **config_hdmi.txt** (KMS driver enabled)
+Copy one of them as **config.txt**
+
 
 ### 2. Setup the Boot Switch Script
 Create **/boot/boot-custom.sh**
@@ -109,22 +111,28 @@ fi
 
 ### 3. Register the Boot Service
 
-Create /etc/init.d/S01detectdock:
-Bash
+Create **/etc/init.d/S01detectdock**
 
+```nano /etc/init.d/S01detectdock```
+
+```
 #!/bin/bash
 case "$1" in
     start)
         [ -f /boot/boot-custom.sh ] && /boot/boot-custom.sh start
         ;;
 esac
+```
 
-chmod +x /etc/init.d/S01detectdock
+```chmod +x /etc/init.d/S01detectdock```
+
 ### 4. Setup Safe Shutdown
 
-Create /userdata/system/shutdown_gpi.py:
-Python
+Create **/userdata/system/shutdown_gpi.py**
 
+```nano /userdata/system/shutdown_gpi.py```
+
+```
 import RPi.GPIO as GPIO
 import os
 import time
@@ -140,16 +148,15 @@ while True:
         time.sleep(1)
         os.system("poweroff")
     time.sleep(0.5)
+```
 
-Enable it in /userdata/system/custom.sh:
-Bash
+Enable it in **/userdata/system/custom.sh**
 
+```nano /userdata/system/custom.sh```
+
+```
 python3 /userdata/system/shutdown_gpi.py &
+```
 
-chmod +x /userdata/system/custom.sh
-5. Final Step: Save Changes
-
-Run this command to make the /etc/ changes permanent:
-Bash
-
-batocera-save-overlay
+```chmod +x /userdata/system/custom.sh```
+i### s command to make the /etc/ 
