@@ -77,6 +77,9 @@ Ensure you have two template files in your /boot partition:
 
 ### 2. Setup the Boot Switch Script
 Create **/boot/boot-custom.sh**
+
+```nano /boot/boot-custom.sh```
+
 ```
 bin/bash
 BOOT_DIR="/boot"
