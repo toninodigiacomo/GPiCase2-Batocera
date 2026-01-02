@@ -83,7 +83,7 @@ Create **/boot/boot-custom.sh**
 ```nano /boot/boot-custom.sh```
 
 ```
-bin/bash
+#!/bin/bash
 BOOT_DIR="/boot"
 CONFIG_FILE="$BOOT_DIR/config.txt"
 CONFIG_LCD="$BOOT_DIR/config_lcd.txt"
