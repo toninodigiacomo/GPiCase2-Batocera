@@ -1,6 +1,7 @@
 # GPi Case 2 - Auto Dock Detection & Safe Shutdown for Batocera
-> [!CAUTION]
-> Do not use ***system.power.switch=RETROFLAG_GPI*** in batocera.conf. Use the custom script provided below.
+
+> [!INFORMATION]
+> This project provides a reliable way to automatically switch between LCD (handheld) and HDMI (dock) configurations on Batocera for the Retroflag GPi Case 2, using the hardware GPIO 18 pin for detection. It also includes a Safe Shutdown script.
 
 ## Concept & Workflow
 The system detects the HDMI connection status very early in the boot process and swaps the `config.txt` file accordingly to ensure the correct display driver (DPI for LCD or KMS for HDMI) is loaded.
@@ -55,9 +56,6 @@ The system detects the HDMI connection status very early in the boot process and
 - Compare (cmp -s): This is the safety check. It prevents an infinite reboot loop. If the file is already correct, it skips the copy and the reboot.
 - Reboot: Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
 
-
-> [!INFORMATION]
-> This project provides a reliable way to automatically switch between LCD (handheld) and HDMI (dock) configurations on Batocera for the Retroflag GPi Case 2, using the hardware GPIO 18 pin for detection. It also includes a Safe Shutdown script.
 ### Features
 - Zero-latency detection: Uses hardware Pin 18 (Dock sensor) instead of slow USB polling.
 - Smart Switch: Only reboots if the configuration file needs to be changed.
@@ -71,14 +69,14 @@ The system detects the HDMI connection status very early in the boot process and
 - **/userdata/system/shutdown_gpi.py** Python script for the power button.
 - **/userdata/system/custom.sh** Starts the shutdown script.
 
-###Installation
+### Installation
 1. Prepare Configuration Files
-- Ensure you have two template files in your /boot partition:
-  - **config_lcd.txt** (DPI settings enabled)
-  - **config_hdmi.txt** (KMS driver enabled, hdmi_force_hotplug=1)
+Ensure you have two template files in your /boot partition:
+- **config_lcd.txt** (DPI settings enabled)
+- **config_hdmi.txt** (KMS driver enabled, hdmi_force_hotplug=1)
 
 2. Setup the Boot Switch Script
-- Create **/boot/boot-custom.sh**
+Create **/boot/boot-custom.sh**
 ```
 bin/bash
 BOOT_DIR="/boot"
@@ -102,11 +100,11 @@ else
         cp -f "$CONFIG_LCD" "$CONFIG_FILE" && sync && reboot -f
     fi
 fi
-
-ch```
+```
 
 ```chmod +x /boot/boot-custom.sh```
- Register the Boot Service
+
+Register the Boot Service
 
 Create /etc/init.d/S01detectdock:
 Bash
