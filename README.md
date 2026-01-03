@@ -19,7 +19,7 @@ The system detects the HDMI connection status very early in the boot process and
                              |
               +------------- v -------------+
               |   Is HDMI Cable Detected?   |
-              |  (Check /sys/class/drm/...) |
+              |   (Check hardware Pin 18)   |
               +-----------------------------+
                 |                         |
           [ YES | DOCKED ]           [ NO | HANDHELD ]
@@ -47,7 +47,7 @@ The system detects the HDMI connection status very early in the boot process and
            |                       | 
   +------- v --------------------- v ------------------------+
   |               LAUNCH EMULATION STATION                   |
-  |           (Display is now correctly set)                 |
+  |            (Display is now correctly set)                |
   +----------------------------------------------------------+
 ```
 
@@ -57,9 +57,9 @@ The system detects the HDMI connection status very early in the boot process and
 - Reboot: Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
 
 ## Features
-- Zero-latency detection: Uses hardware Pin 18 (Dock sensor) instead of slow USB polling.
-- Smart Switch: Only reboots if the configuration file needs to be changed.
-- Safe Shutdown: Protects your SD card by closing emulators properly before powering off.
+- **Zero-latency detection** Uses hardware Pin 18 (Dock sensor) instead of slow USB polling.
+- **Smart Switch** Only reboots if the configuration file needs to be changed.
+- **Safe Shutdown** Protects your SD card by closing emulators properly before powering off.
 
 ## File Structure
 - **/boot/config_lcd.txt** Handheld display configuration.
@@ -160,6 +160,9 @@ python3 /userdata/system/shutdown_gpi.py &
 Make it executable :
 ```chmod +x /userdata/system/custom.sh```
 
+### 5. Final Step: Save Changes
 
+Run this command to make the **/etc/** changes permanent:
 
+```batocera-save-overlay```
 
