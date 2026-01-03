@@ -52,9 +52,9 @@ The system detects the HDMI connection status very early in the boot process and
 ```
 
 ## Quick Keys:
-- HDMI Detected: The script checks if the Dock is connected to a powered-on TV.
-- Compare (cmp -s): This is the safety check. It prevents an infinite reboot loop. If the file is already correct, it skips the copy and the reboot.
-- Reboot: Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
+- **HDMI Detected** The script checks if the Dock is connected to a powered-on TV.
+- **Compare (cmp -s)** This is the safety check. It prevents an infinite reboot loop. If the file is already correct, it skips the copy and the reboot.
+- **Reboot** Necessary because the Raspberry Pi only reads config.txt at the very first stage of the hardware boot process.
 
 ## Features
 - **Zero-latency detection** Uses hardware Pin 18 (Dock sensor) instead of slow USB polling.
